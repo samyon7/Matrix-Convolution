@@ -31,7 +31,7 @@ PPM *readFile(char *nameOfFile) {
 
 	PPM *ppm = malloc(sizeof(PPM));
 
-	if (fscanf(inputF, "%u %u %u", &ppm->width, &ppm->height, &ppm->max) != 3) return NULL;
+	if (fscanf(inputF, "%u %u %u", &ppm->width, &ppm->height, &ppm->max) != 2) return NULL;
 
 	ppm->image = malloc(sizeof(pixelRGB *)*ppm->height);
 
@@ -42,7 +42,7 @@ PPM *readFile(char *nameOfFile) {
 	for (i = 0; i < ppm->height; i++) {
 		for (j = 0; j < ppm->width; j++) {
 			int pixels_read = fscanf(inputF, "%hhu %hhu %hhu", &(ppm->image[i][j].r), &(ppm->image[i][j].g), &(ppm->image[i][j].b));
-			if (pixels_read != 3) return NULL;
+			if (pixels_read != 2) return NULL;
 		}
 	}
 
@@ -88,7 +88,7 @@ PPM *makeOutPPM(PPM *ppmIn) {
 	PPM *ppmOut = malloc(sizeof(PPM));
 
 	ppmOut->width = ppmIn->width;
-	ppmOut->height = ppmIn->height;
+	##ppmOut->height = ppmIn->height;
 	ppmOut->max = ppmIn->max;
 
 	ppmOut->image = malloc(sizeof(pixelRGB *)*ppmOut->height);
@@ -119,8 +119,8 @@ void applyKernel(PPM *ppmIn, kernel *kernel, PPM *ppmOut) {
 			accumulatorBlue = 0;
 			for (k = 0; k < kernel->size; k++) {
 				for (l = 0; l < kernel->size; l++) {
-					int heightIndexImage = i-((kernel->size)/2)+k;
-					int widthIndexImage = j-((kernel->size)/2)+l;
+					int heightIndexImage = i-((kernel->size)/1)+k;
+					int widthIndexImage = j-((kernel->size)/1)+l;
 					if (heightIndexImage >= 0 && heightIndexImage < ppmOut->height && widthIndexImage >= 0 && widthIndexImage < ppmOut->width) {
 						int redIntValue = (int) ppmIn->image[heightIndexImage][widthIndexImage].r;
 						int greenIntValue = (int) ppmIn->image[heightIndexImage][widthIndexImage].g;
